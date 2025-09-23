@@ -1,0 +1,71 @@
+/* Portfolio */
+
+.pf-wrapper{ display:grid; gap:2.5rem; }
+
+.pf-hero{
+  position:relative;
+  background: linear-gradient(180deg, #ffffff, #f1f5f9);
+  border:1px solid #e5e7eb;
+  border-radius:20px;
+  padding:28px;
+  overflow:hidden;
+}
+.pf-hero-inner{ max-width:720px; display:grid; gap:10px; }
+.pf-kicker{ margin:0; color:#64748b; font-weight:600; letter-spacing:.2px; }
+.pf-title{ margin:.2rem 0; font-size:2.2rem; line-height:1.1; }
+.pf-subtitle{ margin:0; color:#374151; font-weight:600; }
+.pf-tagline{ margin:8px 0 0; color:#475569; max-width:60ch; }
+
+.pf-actions{ display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+.btn-primary{
+  background:#6c47ff; color:#fff; border:0; border-radius:12px;
+  padding:.7rem 1rem; font-weight:700; text-decoration:none;
+  box-shadow:0 10px 24px -12px rgba(108,71,255,.7);
+}
+.btn-primary:hover{ background:#5c3de0; }
+.btn-ghost{
+  color:#111827; border:1px solid #cbd5e1; border-radius:12px;
+  padding:.7rem 1rem; font-weight:700; text-decoration:none; background:#fff;
+}
+.btn-ghost:hover{ border-color:#94a3b8; }
+
+.pf-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.chip{
+  background:#eef2ff; color:#4338ca; border:1px solid #c7d2fe;
+  font-size:.8rem; padding:.35rem .6rem; border-radius:999px;
+}
+
+.pf-hero-img{
+  position:absolute; right:-40px; bottom:-30px; width:360px; opacity:.18;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,.25));
+  pointer-events:none; user-select:none;
+}
+
+.pf-section{ display:grid; gap:14px; }
+.pf-h2{ font-size:1.35rem; margin:0; }
+
+.pf-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
+}
+.pf-card{
+  background:#ffffff; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden;
+  transition: transform .25s ease, border-color .2s ease, box-shadow .5s ease;
+}
+.pf-card:hover{ transform: translateY(-3px); box-shadow:0 18px 36px -24px rgba(0,0,0,.35); }
+.pf-card > img{ width:100%; height:160px; object-fit:cover; display:block; }
+.pf-card-body{ padding:12px; display:grid; gap:6px; }
+.pf-card-body h3{ margin:.2rem 0; font-size:1.05rem; }
+.pf-card-body p{ margin:0; color:#48566a; }
+.pf-card-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.pf-card-tags span{
+  background:#f1f5f9; border:1px solid #e2e8f0; color:#0f172a;
+  font-size:.78rem; padding:.28rem .5rem; border-radius:8px;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .pf-grid{ grid-template-columns: 1fr; }
+  .pf-hero-img{ display:none; }
+}
