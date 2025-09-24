@@ -188,7 +188,7 @@ const ContactDrawer: React.FC<ContactDrawerProps> = ({
         open={open}
         bodyStyle={{ paddingBottom: 80 }}
         rootClassName="!text-slate-900 dark:!text-slate-100"
-        headerStyle={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        headerStyle={{ borderBottom: '1px solid rgba(207, 211, 214, 0.08)' }}
         footer={
           <Flex justify="end" gap={8}>
             <Button onClick={() => setOpen(false)} disabled={submitting}>
@@ -317,7 +317,7 @@ const ContactDrawer: React.FC<ContactDrawerProps> = ({
           theme={{
             algorithm: theme.darkAlgorithm,
             token: {
-              colorBgElevated: '#0f172a',
+              colorBgElevated: '#0d0d0eff',
               colorText: '#e2e8f0',
               colorPrimary: '#6366f1',
               borderRadiusLG: 16,
