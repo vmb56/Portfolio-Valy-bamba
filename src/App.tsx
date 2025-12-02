@@ -4,9 +4,8 @@ import Layouts from './components/Layouts';
 import About from './pages/About.tsx';
 import Contact from './pages/contact.tsx';
 import { SignIn } from '@clerk/clerk-react';
-import Home from './pages/Home.tsx';
-
-
+import Portfolio from './pages/Home.tsx';
+import ProjectDetail from './pages/ProjectDetail.tsx';
 
 // Page Login qui utilise la page d’auth Clerk intégrée
 const Login: React.FC = () => (
@@ -20,10 +19,12 @@ const App: React.FC = () => {
     <Routes>
       {/* Route parente = Layout */}
       <Route element={<Layouts />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Portfolio />} />
         <Route path="/About" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/projets/:slug" element={<ProjectDetail />} />
+
       </Route>
     </Routes>
   );

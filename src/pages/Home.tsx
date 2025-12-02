@@ -1,40 +1,16 @@
 // src/pages/Portfolio.tsx
 import ContactDrawer from '../components/Drawer_contact';
 import { motion, type Transition } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import cv from '../assets/cv.pdf';
 import PP2 from '../assets/PP2.jpg';
 
+// Data centralisée des projets (avec slug)
+import { projects } from '../data/projects';
+
+/* -------------------- Données locales -------------------- */
 const chips = [
   'React', 'TypeScript', 'Node.js', 'Laravel', 'WinDev', 'SQL', 'PostgreSQL', 'Power BI', 'SharePoint', 'Tailwind'
-];
-
-const projects = [
-  {
-    cover: '/proj-bmvt.jpg',
-    title: "Gestion d’agence de voyage (BMVT)",
-    description:
-      "Application client/serveur pour l’enregistrement des pèlerins, paiements, hébergements et logistique (Hajj).",
-    tags: ['WinDev', 'SQL'],
-    link: undefined,
-  },
-  {
-    cover: '/proj-courrier.jpg',
-    title: 'Gestion des courriers – SOTRA',
-    description: 'Application mobile pour la gestion et le suivi des courriers internes.',
-    tags: ['Mobile', 'WinDev Mobile'],
-  },
-  {
-    cover: '/proj-crud.jpg',
-    title: 'Transactions – Habitat Constructor',
-    description: 'Application CRUD pour la gestion des transactions + supervision technique des chantiers.',
-    tags: ['WinDev', 'SQL'],
-  },
-  {
-    cover: '/proj-site.jpg',
-    title: 'Site vitrine performant',
-    description: 'Pages statiques optimisées, SEO de base, score Lighthouse 95+.',
-    tags: ['Vite', 'React', 'SEO'],
-  },
 ];
 
 const experiences = [
@@ -86,18 +62,18 @@ const education = [
 const languages = ['Français (parlé, écrit, lu)', 'Anglais (écrit, lu)'];
 const softSkills = ['Esprit d’équipe', 'Rigueur', 'Détermination'];
 
-/* -------------------- Animations (Framer Motion) -------------------- */
+/* -------------------- Animations -------------------- */
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
 } as const;
 
-const stagger = {
+const staggerVariants = {
   hidden: { opacity: 1 },
   show: { opacity: 1, transition: { staggerChildren: 0.09 } },
 } as const;
 
-const EASE_IN_OUT_BEZIER = [0.42, 0, 0.58, 1] as [number, number, number, number];
+const EASE_IN_OUT_BEZIER: [number, number, number, number] = [0.42, 0, 0.58, 1];
 
 const floatTransition: Transition = {
   duration: 6,
@@ -114,25 +90,30 @@ const imgFloatTransition: Transition = {
 export default function Portfolio() {
   return (
     <motion.main initial="hidden" animate="show" className="min-h-screen">
-      {/* HERO — compact (on remplace min-h-screen par py) */}
+      {/* HERO */}
       <section className="relative overflow-hidden py-20 md:py-24">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 to-white dark:from-zinc-900/80 dark:to-black" />
+        {/* ✅ fond plus contrasté */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-100 to-white dark:from-zinc-950 dark:to-black" />
         <motion.div
-          variants={stagger}
+          variants={staggerVariants}
           className="grid items-center gap-10 md:grid-cols-2"
           animate={{ y: [0, -6, 0] }}
           transition={floatTransition}
         >
           {/* Texte */}
           <motion.div variants={fadeInUp} className="pr-2">
-            <p className="text-sm uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+            <p className="text-sm uppercase tracking-wider text-slate-600 dark:text-zinc-400">
               👋 Bonjour, moi c’est
             </p>
-            <h1 className="mt-2 text-4xl font-extrabold leading-tight sm:text-5xl">Valy Bamba</h1>
-            <p className="mt-2 text-lg text-slate-600 dark:text-zinc-300">
+            {/* ✅ titres très lisibles */}
+            <h1 className="mt-2 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl dark:text-zinc-100">
+              Valy Bamba
+            </h1>
+            <p className="mt-2 text-lg text-slate-700 dark:text-zinc-200">
               Développeur • React / TypeScript • WinDev
             </p>
-            <p className="mt-6 max-w-2xl text-slate-600 dark:text-zinc-300">
+            {/* ✅ corps plus foncé en clair et plus clair en sombre */}
+            <p className="mt-6 max-w-2xl text-slate-700 dark:text-zinc-200">
               Je conçois des interfaces modernes, rapides et accessibles, avec un fort souci
               de qualité de code et d’expérience utilisateur.
             </p>
@@ -142,7 +123,7 @@ export default function Portfolio() {
               <motion.a
                 href={cv}
                 download
-                className="inline-flex items-center justify-center rounded-xl border border-transparent bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow focus:outline-none focus:ring-2 focus:ring-slate-400 dark:bg-white dark:text-slate-900"
+                className="inline-flex items-center justify-center rounded-xl border border-transparent bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600"
                 whileHover={{ scale: 1.06, y: -2 }}
                 whileTap={{ scale: 0.96, y: 0 }}
               >
@@ -158,18 +139,18 @@ export default function Portfolio() {
                 dark
                 triggerClassName="inline-flex items-center justify-center rounded-xl border border-slate-300 
                   px-6 py-3 text-sm font-medium text-slate-900 shadow hover:bg-slate-100
-                  focus:outline-none focus:ring-2 focus:ring-slate-400 
-                  dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-800"
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500
+                  dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
               />
             </div>
 
-            {/* Chips */}
-            <motion.ul variants={stagger} className="mt-8 flex flex-wrap gap-2">
+            {/* Chips (contraste renforcé) */}
+            <motion.ul variants={staggerVariants} className="mt-8 flex flex-wrap gap-2">
               {chips.map((c) => (
                 <motion.li
                   key={c}
                   variants={fadeInUp}
-                  className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 dark:border-zinc-700 dark:text-zinc-300"
+                  className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs text-slate-700 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                   whileHover={{ scale: 1.06 }}
                 >
                   {c}
@@ -178,12 +159,12 @@ export default function Portfolio() {
             </motion.ul>
           </motion.div>
 
-          {/* Photo (un peu plus petite en mobile) */}
+          {/* Photo */}
           <motion.div variants={fadeInUp} className="flex justify-center md:justify-end">
             <motion.img
               src={PP2}
               alt="Photo de profil de Valy Bamba"
-              className="h-56 w-56 md:h-64 md:w-64 rounded-full object-cover shadow-xl ring-4 ring-slate-200 dark:ring-zinc-800"
+              className="h-56 w-56 md:h-64 md:w-64 rounded-full object-cover shadow-xl ring-4 ring-slate-300 dark:ring-zinc-700"
               initial={{ y: 0 }}
               animate={{ y: [0, -8, 0] }}
               transition={imgFloatTransition}
@@ -192,9 +173,9 @@ export default function Portfolio() {
         </motion.div>
       </section>
 
-      {/* PROJETS — espace resserré au-dessus */}
+      {/* PROJETS — cartes cliquables */}
       <motion.section
-        variants={fadeInUp}
+        variants={staggerVariants}
         initial="hidden"
         whileInView="show"
         viewport={{ once: false, amount: 0.2 }}
@@ -202,35 +183,43 @@ export default function Portfolio() {
         animate={{ y: [0, -6, 0] }}
         transition={floatTransition}
       >
-        <h2 className="text-2xl font-bold">Projets récents</h2>
-        <motion.div variants={stagger} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">Projets récents</h2>
+
+        <motion.div variants={staggerVariants} className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
-            <motion.article
-              key={p.title}
-              variants={fadeInUp}
-              className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition dark:border-zinc-800 dark:bg-zinc-900"
-              whileHover={{ y: -6 }}
+            <Link
+              key={p.slug}
+              to={`/projets/${p.slug}`}
+              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-zinc-900 rounded-2xl"
             >
-              <img
-                src={p.cover}
-                alt={p.title}
-                className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-              />
-              <div className="space-y-3 p-5">
-                <h3 className="text-lg font-semibold">{p.title}</h3>
-                <p className="text-sm text-slate-600 dark:text-zinc-300">{p.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {p.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-700 transition-colors group-hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-200 dark:group-hover:bg-zinc-700"
-                    >
-                      {t}
-                    </span>
-                  ))}
+              <motion.article
+                variants={fadeInUp}
+                className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition
+                           hover:shadow-lg hover:-translate-y-1 dark:border-zinc-700/80 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                whileHover={{ y: -6 }}
+              >
+                <img
+                  src={p.cover}
+                  alt={p.title}
+                  className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                />
+                <div className="space-y-3 p-5">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-zinc-100">{p.title}</h3>
+                  <p className="text-sm text-slate-700 dark:text-zinc-200">{p.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {p.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-800 transition-colors
+                                   group-hover:bg-slate-200 dark:bg-zinc-800 dark:text-zinc-100 dark:group-hover:bg-zinc-700"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.article>
+              </motion.article>
+            </Link>
           ))}
         </motion.div>
       </motion.section>
@@ -245,31 +234,31 @@ export default function Portfolio() {
         animate={{ y: [0, -6, 0] }}
         transition={floatTransition}
       >
-        <h2 className="text-2xl font-bold">Compétences</h2>
-        <motion.div variants={stagger} className="mt-8 grid gap-6 md:grid-cols-2">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">Compétences</h2>
+        <motion.div variants={staggerVariants} className="mt-8 grid gap-6 md:grid-cols-2">
           <motion.div
             variants={fadeInUp}
-            className="rounded-2xl border border-slate-200 p-6 transition hover:-translate-y-1 hover:shadow-md dark:border-zinc-800"
+            className="rounded-2xl border border-slate-300 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900"
           >
-            <h3 className="text-base font-semibold">Tech & Frameworks</h3>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-zinc-100">Tech & Frameworks</h3>
             <ul className="mt-4 grid grid-cols-2 gap-y-2 text-sm sm:grid-cols-3">
               {competences.map((s) => (
-                <li key={s} className="text-slate-700 dark:text-zinc-300">{s}</li>
+                <li key={s} className="text-slate-800 dark:text-zinc-200">{s}</li>
               ))}
             </ul>
           </motion.div>
 
           <motion.div
             variants={fadeInUp}
-            className="rounded-2xl border border-slate-200 p-6 transition hover:-translate-y-1 hover:shadow-md dark:border-zinc-800"
+            className="rounded-2xl border border-slate-300 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900"
           >
-            <h3 className="text-base font-semibold">Outils</h3>
+            <h3 className="text-base font-semibold text-slate-900 dark:text-zinc-100">Outils</h3>
             <ul className="mt-4 grid grid-cols-1 gap-y-2 text-sm sm:grid-cols-2">
               {[
                 'Office 365 (Excel, Word, PowerPoint, OneDrive)',
-                'Google (Drive, Docs, Gmail, Sheets, Slides)'
+                'Google (Drive, Docs, Gmail, Sheets, Slides)',
               ].map((s) => (
-                <li key={s} className="text-slate-700 dark:text-zinc-300">{s}</li>
+                <li key={s} className="text-slate-800 dark:text-zinc-200">{s}</li>
               ))}
             </ul>
           </motion.div>
@@ -286,22 +275,22 @@ export default function Portfolio() {
         animate={{ y: [0, -6, 0] }}
         transition={floatTransition}
       >
-        <h2 className="text-2xl font-bold">Expériences</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">Expériences</h2>
         <div className="mt-8 space-y-6">
           {experiences.map((e) => (
             <motion.div
               key={e.title + e.company}
               variants={fadeInUp}
-              className="rounded-2xl border border-slate-200 p-6 transition hover:shadow-md dark:border-zinc-800"
+              className="rounded-2xl border border-slate-300 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900"
             >
               <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
-                <h3 className="text-base font-semibold">
+                <h3 className="text-base font-semibold text-slate-900 dark:text-zinc-100">
                   {e.title} ·{' '}
-                  <span className="font-normal text-slate-600 dark:text-zinc-300">{e.company}</span>
+                  <span className="font-normal text-slate-700 dark:text-zinc-200">{e.company}</span>
                 </h3>
-                <span className="text-sm text-slate-500 dark:text-zinc-400">{e.period}</span>
+                <span className="text-sm text-slate-600 dark:text-zinc-300">{e.period}</span>
               </div>
-              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-700 dark:text-zinc-300">
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-800 dark:text-zinc-200">
                 {e.bullets.map((b, i) => <li key={i}>{b}</li>)}
               </ul>
             </motion.div>
@@ -319,10 +308,10 @@ export default function Portfolio() {
         animate={{ y: [0, -6, 0] }}
         transition={floatTransition}
       >
-        <h2 className="text-2xl font-bold">Formations</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">Formations</h2>
         <motion.ul
-          variants={stagger}
-          className="mt-6 divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 dark:divide-zinc-800 dark:border-zinc-800"
+          variants={staggerVariants}
+          className="mt-6 divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-300 bg-white shadow-sm dark:divide-zinc-800 dark:border-zinc-700 dark:bg-zinc-900"
         >
           {education.map((ed) => (
             <motion.li
@@ -330,8 +319,8 @@ export default function Portfolio() {
               variants={fadeInUp}
               className="flex items-center justify-between gap-4 px-6 py-4"
             >
-              <span className="text-sm text-slate-500 dark:text-zinc-400">{ed.period}</span>
-              <span className="text-sm font-medium text-slate-800 dark:text-zinc-200">{ed.label}</span>
+              <span className="text-sm text-slate-700 dark:text-zinc-300">{ed.period}</span>
+              <span className="text-sm font-medium text-slate-900 dark:text-zinc-100">{ed.label}</span>
             </motion.li>
           ))}
         </motion.ul>
@@ -347,24 +336,24 @@ export default function Portfolio() {
         animate={{ y: [0, -6, 0] }}
         transition={floatTransition}
       >
-        <h2 className="text-2xl font-bold">Langues & Qualités</h2>
-        <motion.div variants={stagger} className="mt-6 grid gap-6 md:grid-cols-2">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-zinc-100">Langues & Qualités</h2>
+        <motion.div variants={staggerVariants} className="mt-6 grid gap-6 md:grid-cols-2">
           <motion.ul
             variants={fadeInUp}
-            className="rounded-2xl border border-slate-200 p-6 text-sm text-slate-700 dark:border-zinc-800 dark:text-zinc-300"
+            className="rounded-2xl border border-slate-300 bg-white p-6 text-sm text-slate-800 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
           >
             {languages.map((l) => <li key={l} className="leading-7">{l}</li>)}
           </motion.ul>
           <motion.ul
             variants={fadeInUp}
-            className="rounded-2xl border border-slate-200 p-6 text-sm text-slate-700 dark:border-zinc-800 dark:text-zinc-300"
+            className="rounded-2xl border border-slate-300 bg-white p-6 text-sm text-slate-800 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
           >
             {softSkills.map((s) => <li key={s} className="leading-7">{s}</li>)}
           </motion.ul>
         </motion.div>
       </motion.section>
 
-      {/* CTA */}
+      {/* CTA (cohérent clair/sombre) */}
       <motion.section
         variants={fadeInUp}
         initial="hidden"
@@ -376,29 +365,21 @@ export default function Portfolio() {
       >
         <motion.div
           variants={fadeInUp}
-          className="rounded-2xl bg-slate-900 p-8 text-white dark:bg-white dark:text-slate-900"
+          className="rounded-2xl bg-indigo-600 p-8 text-white shadow-sm dark:bg-indigo-600"
         >
           <h2 className="text-2xl font-bold">Un projet en tête ?</h2>
-          <p className="mt-3 text-sm opacity-90">
+          <p className="mt-3 text-sm text-white/90">
             Je peux vous accompagner sur React/TypeScript, WinDev, SQL, BI et automatisations.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <motion.a
               href="mailto:valybamba56@gmail.com"
-              className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow focus:outline-none focus:ring-2 focus:ring-white/50 dark:bg-slate-900 dark:text-white"
+              className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200"
               whileHover={{ scale: 1.06, y: -2 }}
               whileTap={{ scale: 0.96, y: 0 }}
             >
               Écrire un mail
             </motion.a>
-            {/* <motion.a
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-xl border border-white/30 px-5 py-3 text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50 dark:border-slate-300/50"
-              whileHover={{ scale: 1.06, y: -2 }}
-              whileTap={{ scale: 0.96, y: 0 }}
-            >
-              Formulaire de contact
-            </motion.a> */}
           </div>
         </motion.div>
       </motion.section>
